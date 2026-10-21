@@ -1,0 +1,16 @@
+{
+  "name": "sebmake-motion",
+  "metadata": { "description": "Motion design skills by sebmake" },
+  "owner": { "name": "sebmake" },
+  "plugins": [
+    {
+      "name": "sebmake-motiondesign-likeapplepls",
+      "description": "Apple-keynote motion, measured frame by frame, turned into After Effects / EffectCraft scripts.",
+      "version": "1.0.0",
+      "author": { "name": "sebmake" },
+      "source": "./",
+      "category": "productivity",
+      "homepage": "https://github.com/sebmake/sebmake-motiondesign-likeapplepls"
+    }
+  ]
+}

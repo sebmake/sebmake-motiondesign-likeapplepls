@@ -1,0 +1,9 @@
+{
+  "name": "sebmake-motiondesign-likeapplepls",
+  "version": "1.0.0",
+  "description": "Says what to animate and how, element by element, using motion measured frame by frame in eight Apple keynotes, then writes and runs the After Effects or EffectCraft script that builds the animation.",
+  "author": { "name": "sebmake" },
+  "homepage": "https://github.com/sebmake/sebmake-motiondesign-likeapplepls",
+  "license": "MIT",
+  "keywords": ["motion-design", "after-effects", "extendscript", "effectcraft", "animation", "easing"]
+}
