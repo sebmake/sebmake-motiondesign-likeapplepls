@@ -1,56 +1,62 @@
+
+<a href="https://github.com/sebmake/sebmake-motiondesign-likeapplepls/releases/latest">
+<img width="720" alt="Twelve frames from the example that ships with the skill, rendered in EffectCraft" src="skills/sebmake-motiondesign-likeapplepls/assets/apercu-exemple.jpg" />
+</a>
+
 # sebmake-motiondesign-likeapplepls
 
-Une skill Claude Code qui répond à la question « j'anime ça comment ? » pour un titre, une liste, un chiffre, un logo, une photo de produit, une capture d'écran ou une transition, puis écrit le script After Effects (ou EffectCraft) qui construit l'animation. Les durées et les courbes ne sortent pas d'un manuel : on les a mesurées image par image dans huit keynotes Apple.
+For anyone who animates: it tells you how to animate a title, a list, a hero number, a logo, a product shot, a screenshot or a transition, then writes the After Effects or EffectCraft script that builds it.
 
-*English below.*
+Knowing which easing, duration or delay to use is hard, and "make it feel like Apple" doesn't help much. This skill answers with numbers.
 
-## Ce que les mesures ont donné
+About 640 animations from eight Apple keynotes, March 2019 to September 2026, were measured frame by frame: 145 text animations, 122 object moves, 189 interface moves and 182 transitions. For each one: the duration, the distance, the delay between elements, and the closest cubic-bezier curve.
 
-On a suivi environ 640 animations, à la cadence d'origine, de mars 2019 à septembre 2026 : 145 animations de texte, 122 d'objets, 189 d'interfaces et 182 transitions. Pour chacune, on a relevé la durée, l'amplitude et le décalage entre éléments, puis on a ajusté la courbe sur une cubic-bezier connue en notant l'erreur.
+The skill's instructions are in French.
 
-Une bonne partie de ce qu'on croit savoir du « style Apple » ne tient pas à la mesure. Le texte arrive le plus souvent sur une coupe, déjà affiché, et repart de la même façon ; quand il fond, ça prend environ 0,4 s. Aucun chiffre ne compte jusqu'à sa valeur (0 cas sur 27), rien ne rebondit, aucune lettre n'arrive une par une. Le produit en lévitation ne flotte pas non plus : il bouge de moins de 0,3 % de la hauteur dans 10 plans tenus sur 13.
+[Watch the example in the latest release](https://github.com/sebmake/sebmake-motiondesign-likeapplepls/releases/latest)
 
-D'autres gestes, en revanche, reviennent avec une régularité de métronome. Depuis 2025, le chiffre héros entre deux à huit fois trop grand et flou, puis se pose en 0,67 s, et son libellé suit 0,23 s plus tard. Les lignes d'une liste s'allument à 0,10 s d'intervalle (ou 0,05 s), et un zoom dans une interface dure 0,67 s. Un filet de lumière ne traverse qu'une fois, en 0,28 s. Plus de 95 % des changements de plan sont des coupes franches, et le fondu au noir, toujours linéaire, dure 0,50 s.
+## Install
 
-## Comment elle travaille
+```bash
+npx skills@latest add sebmake/sebmake-motiondesign-likeapplepls
+```
 
-Elle vous demande quels éléments animer et avec quels fichiers, dans quel outil, à quel format (16:9, 9:16 ou 1:1) et avec quel habillage, via un lien de design system ou des couleurs en HEX. Vous voyez ensuite le plan d'animation en tableau, élément par élément, avant qu'elle écrive une ligne de script.
+It's one of the four [LikeApplePLS](https://github.com/sebmake/skills) skills, and `npx skills@latest add sebmake/skills/LikeApplePLS` installs all of them.
 
-Le script sort en JavaScript ES3, celui qu'After Effects comprend, et n'utilise que l'API qu'After Effects et EffectCraft partagent. Il s'appuie sur 39 recettes et 10 transitions, chacune avec sa durée mesurée et sa courbe traduite en clés KeyframeEase. Calques et clés portent des noms lisibles, pour qu'on puisse retoucher à la main. Dans EffectCraft, la skill lance le script elle-même par le canal de contrôle de l'app et fabrique des images de contrôle ; dans After Effects, vous l'exécutez par Fichier > Scripts > Exécuter le fichier.
-
-Un chiffre absent du brief reste `[À FOURNIR]` : la skill n'en invente aucun.
-
-![Douze images de l'exemple livré avec la skill, rendu dans EffectCraft](skills/sebmake-motiondesign-likeapplepls/assets/apercu-exemple.jpg)
-
-## Installation
-
-En plugin Claude Code :
+Or as a Claude Code plugin:
 
 ```bash
 claude plugin marketplace add sebmake/sebmake-motiondesign-likeapplepls
 claude plugin install sebmake-motiondesign-likeapplepls@sebmake-motion
 ```
 
-À la main, copiez `skills/sebmake-motiondesign-likeapplepls` dans `~/.claude/skills/`. Il vous faut Node 18 ou plus et Python 3.9 ou plus. Pour exécuter le script vous-même, After Effects suffit ; pour laisser la skill le faire, lancez EffectCraft avec son canal de contrôle (`open -a EffectCraft --args --control 9877`) et gardez sa fenêtre au premier plan, sinon l'app ne répond pas.
+You'll need Node 18 or later, Python 3.9 or later and ffmpeg, plus After Effects or EffectCraft. To let the skill run the script for you, start EffectCraft with its control port (`open -a EffectCraft --args --control 9877`) and keep its window in front, or the app won't answer.
 
-## Ce qui reste à éprouver
+## Why use it?
 
-L'animation de test (15 s en vertical) a été rendue trois fois dans EffectCraft. Après chaque passe, on a refait les mêmes mesures sur le rendu et comparé aux keynotes. Le titre, le chiffre, le zoom et le logo collent maintenant aux valeurs relevées. Les lignes de liste atteignent leur pleine opacité un peu trop tôt, le bord de la capture entre dans le cadre après le zoom, et en 9:16 le surtitre reste petit. Personne n'a encore lancé un script dans After Effects, qui n'était pas disponible pendant le développement. La release v1.0.0 contient le rendu de l'exemple, 20 s en 16:9.
+A lot of what people believe about "the Apple style" turns out to be wrong once you measure it.
 
-Un piège découvert pendant le développement vous évitera des recherches : EffectCraft ignore les courbes d'animation si la composition n'est pas ouverte dans la visionneuse. Le script l'ouvre donc avant de poser la moindre clé.
+Text mostly arrives on a cut, already on screen, and leaves the same way. No number ever counts up to its value (0 out of 27). Nothing bounces, no letter flies in one at a time, and the floating product doesn't float: in 10 of 13 held shots it moves less than 0.3% of the frame height.
+
+Other moves come back with the same timing every time. Since 2025, a hero number appears two to eight times too large and blurred, then shrinks into place in 0.67 s, with its label 0.23 s behind. List lines light up 0.10 s apart (sometimes 0.05 s). A zoom into an interface takes 0.67 s, and over 95% of shot changes are straight cuts.
+
+The skill asks what to animate, in which tool, at which format (16:9, 9:16 or 1:1) and with which colors. You see the plan element by element, in a table, before it writes a line of script. The script is ES3 JavaScript that runs in both After Effects and EffectCraft: 39 recipes and 10 transitions, each with its measured duration and its curve turned into KeyframeEase keys. Layers and keys get readable names, so you can edit them by hand.
+
+In EffectCraft, the skill runs the script itself and makes check frames. In After Effects, you run it from File > Scripts > Run Script File. A number missing from your brief stays `[À FOURNIR]` ("to be provided"); the skill won't invent one.
+
+## Reference
+
+- **[SKILL.md](./skills/sebmake-motiondesign-likeapplepls/SKILL.md)** — The main skill: the questions, the animation plan, then the script.
+- **[principes.md](./skills/sebmake-motiondesign-likeapplepls/references/principes.md)** — Why things move the way they do, and what never moves, each rule with its count.
+- **[elements.md](./skills/sebmake-motiondesign-likeapplepls/references/elements.md)** — Element by element: what to animate, which recipe, how long, and what not to do.
+- **[courbes.md](./skills/sebmake-motiondesign-likeapplepls/references/courbes.md)** — Every measured curve, as cubic-bezier and as After Effects keys.
+- **[motion-spec.md](./skills/sebmake-motiondesign-likeapplepls/references/motion-spec.md)** — The `motion.json` format the script is built from.
+- **[outils.md](./skills/sebmake-motiondesign-likeapplepls/references/outils.md)** — Running the script in After Effects and in EffectCraft.
+
+The reference files are in French.
+
+Nobody has run a script in After Effects yet; it wasn't available while the skill was built. The test animation was rendered three times in EffectCraft and measured again after each pass. The list lines still reach full opacity a little early, the edge of the screenshot comes into the frame after the zoom, and in 9:16 the small label above the title stays too small. One trap worth knowing: EffectCraft ignores easing curves unless the composition is open in the viewer, so the script opens it before setting any key.
 
 ---
 
-## English
-
-A Claude Code skill that tells you how to animate a title, a list, a hero number, a logo, a product shot, a UI screenshot or a transition, then writes the After Effects (or EffectCraft) script that builds it. The timings come from roughly 640 animations measured frame by frame in eight Apple keynotes, 2019 to 2026.
-
-Several of the numbers go against common habits. Text mostly arrives on a cut, no number ever counts up, nothing bounces and products don't float. Hero numbers since 2025 drop in oversized and blurred, then settle in 0.67 s. List lines light up 0.10 s apart, and over 95 % of shot changes are straight cuts.
-
-It asks what to animate and where it'll run, shows you an element-by-element plan, then generates an ES3 script that runs in both tools: 39 recipes, 10 transitions, measured durations, curves converted to KeyframeEase. In EffectCraft it runs the script for you over the app's control port. Missing figures stay `[TO PROVIDE]`; it won't invent one.
-
-Install with `claude plugin marketplace add sebmake/sebmake-motiondesign-likeapplepls`, then `claude plugin install sebmake-motiondesign-likeapplepls@sebmake-motion`. You'll need Node 18+ and Python 3.9+, plus After Effects or EffectCraft. Nothing has been run in After Effects yet.
-
----
-
-Not affiliated with, endorsed or sponsored by Apple Inc. Apple and Keynote are trademarks of Apple Inc. After Effects is a trademark of Adobe. Licence MIT.
+Not affiliated with, endorsed or sponsored by Apple Inc. Apple and Keynote are trademarks of Apple Inc., registered in the U.S. and other countries. After Effects is a trademark of Adobe. MIT License.
